@@ -3,7 +3,7 @@ use std::io;
 use std::cmp::Ordering;
 
 fn main(){
-    println!("Pick any two numbers, if their sum is greater than the numbers i pick, you win a million dollards");
+    println!("Pick any two numbers between 1 and 6, if their sum is greater than the numbers i pick, you win a million dollards");
     let mut x = String::new();
     let mut y = String::new();
 
@@ -24,15 +24,26 @@ fn main(){
     let mut machine = rand::rng();
     let mut die:Vec<i32> = (1..=6).collect();
 
-    let roll = vec![
-        die.choose(&mut machine).expect("one"),
-        die.choose(&mut machine).expect("two")
-    ];
+    
+    let mut roll:Vec<i32> = Vec::new();
+    roll.push(*die.choose(&mut machine).expect("one"));
+    roll.push(*die.choose(&mut machine).expect("two"));
 
-    println!("The roll is {:?}, your choices were {:?}",roll, choices );
+    // let roll = vec![
+    //     die.choose(&mut machine).expect("one"),
+    //     die.choose(&mut machine).expect("two")
+    // ];
 
-    match roll.iter().sum().cmp
+    let rollsum = roll.iter().sum::<i32>();
+    let choicesum = choices.iter().sum::<i32>();
+    println!("The sum of your choices is {:?}", choicesum);
 
+    match rollsum.cmp(&choicesum){
+        Ordering::Less => println!("Too High! The sum of my die is {:?}, less than your {:?}", rollsum, choicesum),
+        Ordering::Greater =>println!("Too Low! The sum of my die is {:?}, greater than your {:?}", rollsum, choicesum),
+        Ordering::Equal =>println!("Great! {:?} is equal to {:?}", rollsum, choicesum),
+    }
+   
     
 
 }
